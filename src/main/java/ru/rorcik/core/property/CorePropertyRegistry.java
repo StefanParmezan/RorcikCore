@@ -29,4 +29,8 @@ public class CorePropertyRegistry {
     public static boolean exists(String modId, String id) {
         return get(modId, id) != null;
     }
+
+    public static Map<String, Map<String, Characteristic<?>>> getAllModMaps() {
+        return Collections.unmodifiableMap(GLOBAL_REGISTRY);
+    }
 }

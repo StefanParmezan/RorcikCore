@@ -1,22 +1,22 @@
 modLoader="javafml"
 loaderVersion="${loader_version_range}"
-license="All Rights Reserved"
+license="${mod_license}"
 
 [[mods]]
-modId="rorcik_core"
-version="0.0.1"
-displayName="RorcikCore"
-authors="Rorcik, StefanParmezan"
-description='''Core mod for mods in "The Last Dawn" minecraft modpack'''
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description='''${mod_description}'''
 
-[[dependencies.rorcik_core]]
+[[dependencies.${mod_id}]]
 modId="forge"
 mandatory=true
 versionRange="${forge_version_range}"
 ordering="NONE"
 side="BOTH"
 
-[[dependencies.rorcik_core]]
+[[dependencies.${mod_id}]]
 modId="minecraft"
 mandatory=true
 versionRange="${minecraft_version_range}"

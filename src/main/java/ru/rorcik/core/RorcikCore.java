@@ -1,32 +1,50 @@
 package ru.rorcik.core;
 
-import com.mojang.logging.LogUtils;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.capabilities.RegisterCapabilitiesEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import ru.rorcik.core.capability.PropertyContainerCapability;
+import ru.rorcik.core.event.RegisterIdentifiableEvent;
+import ru.rorcik.core.event.RegisterPropertiesEvent;
 
 @Mod(RorcikCore.MODID)
 public class RorcikCore {
     public static final String MODID = "rorcik_core";
-    private static final Logger LOGGER = LogUtils.getLogger();
+    public static final Logger LOGGER = LogManager.getLogger();
 
-    public RorcikCore(FMLJavaModLoadingContext context) {
-        IEventBus modEventBus = context.getModEventBus();
-
+    public RorcikCore() {
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
+        modEventBus.addListener(this::registerCapabilities);
         MinecraftForge.EVENT_BUS.register(this);
-
-        context.registerConfig(ModConfig.Type.COMMON, Config.SPEC);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("RorcikCore initialized successfully.");
-        if (Config.debugMode) {
-            LOGGER.info("Debug mode is enabled.");
-        }
+        LOGGER.info("RorcikCore common setup");
+        event.enqueueWork(() -> {
+            MinecraftForge.EVENT_BUS.post(new RegisterPropertiesEvent());
+            MinecraftForge.EVENT_BUS.post(new RegisterIdentifiableEvent());
+        });
+    }
+
+    private void registerCapabilities(final RegisterCapabilitiesEvent event) {
+        PropertyContainerCapability.register();
+        event.register(ru.rorcik.core.property.PropertyContainer.class);
+    }
+
+    @SubscribeEvent
+    public void onRegisterProperties(RegisterPropertiesEvent event) {
+        LOGGER.info("Properties registration phase started");
+    }
+
+    @SubscribeEvent
+    public void onRegisterIdentifiable(RegisterIdentifiableEvent event) {
+        LOGGER.info("Identifiable objects registration phase started");
     }
 }

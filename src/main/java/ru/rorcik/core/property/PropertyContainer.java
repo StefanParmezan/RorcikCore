@@ -36,6 +36,16 @@ public class PropertyContainer {
         return characteristic.getType().cast(value);
     }
 
+    @SuppressWarnings("unchecked")
+    public <T> T getOrNull(@NonNull Characteristic<T> characteristic) {
+        Objects.requireNonNull(characteristic, "Characteristic cannot be null");
+        Object value = values.get(characteristic);
+        if (value == null) {
+            return null;
+        }
+        return characteristic.getType().cast(value);
+    }
+
     public <T> boolean has(@NonNull Characteristic<T> characteristic) {
         Objects.requireNonNull(characteristic, "Characteristic cannot be null");
         return values.containsKey(characteristic);

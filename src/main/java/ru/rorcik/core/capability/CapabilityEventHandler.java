@@ -14,8 +14,10 @@ public class CapabilityEventHandler {
 
     @SubscribeEvent
     public static void onAttachCapabilities(AttachCapabilitiesEvent<ItemStack> event) {
-        if (!event.getObject().isEmpty()) {
-            event.addCapability(PROPERTY_CONTAINER_CAP, new DynamicCapabilityProvider());
+        ItemStack stack = event.getObject();
+        if (stack.isEmpty()) {
+            return;
         }
+        event.addCapability(PROPERTY_CONTAINER_CAP, new DynamicCapabilityProvider());
     }
 }

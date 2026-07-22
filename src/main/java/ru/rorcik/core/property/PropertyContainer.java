@@ -21,6 +21,11 @@ public class PropertyContainer {
                             "'. Expected: " + characteristic.getType().getName() +
                             ", got: " + value.getClass().getName()
             );
+        } else if (!characteristic.validate(value)) {
+            throw new IllegalArgumentException(
+                    "Value validation failed for characteristic '" + characteristic.getId() +
+                            "'. Value: " + value
+            );
         } else {
             values.put(characteristic, value);
         }

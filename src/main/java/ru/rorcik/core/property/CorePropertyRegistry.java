@@ -7,12 +7,15 @@ import java.util.concurrent.ConcurrentHashMap;
 public class CorePropertyRegistry {
     private static final Map<String, Map<String, Characteristic<?>>> GLOBAL_REGISTRY = new ConcurrentHashMap<>();
 
-    public static <T> Characteristic<T> register(String modId, String id, Class<T> type, T defaultValue) {
+    public static <T> Characteristic<T> register(String modId, Characteristic<T> characteristic) {
         if (modId == null || modId.trim().isEmpty()) {
             throw new IllegalArgumentException("Mod ID cannot be null or empty");
         }
-        Characteristic<T> characteristic = new Characteristic<>(id, type, defaultValue);
-        GLOBAL_REGISTRY.computeIfAbsent(modId, k -> new ConcurrentHashMap<>()).put(id, characteristic);
+        if (characteristic == null) {
+            throw new IllegalArgumentException("Characteristic cannot be null");
+        }
+        GLOBAL_REGISTRY.computeIfAbsent(modId, k -> new ConcurrentHashMap<>())
+                .put(characteristic.getId(), characteristic);
         return characteristic;
     }
 
@@ -24,10 +27,6 @@ public class CorePropertyRegistry {
 
     public static Map<String, Characteristic<?>> getModMap(String modId) {
         return GLOBAL_REGISTRY.getOrDefault(modId, Collections.emptyMap());
-    }
-
-    public static boolean exists(String modId, String id) {
-        return get(modId, id) != null;
     }
 
     public static Map<String, Map<String, Characteristic<?>>> getAllModMaps() {

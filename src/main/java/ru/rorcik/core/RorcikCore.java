@@ -9,9 +9,9 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import ru.rorcik.core.capability.PropertyContainerCapability;
 import ru.rorcik.core.event.RegisterIdentifiableEvent;
 import ru.rorcik.core.event.RegisterPropertiesEvent;
+import ru.rorcik.core.property.RorPropertyContainer;
 
 @Mod(RorcikCore.MODID)
 public class RorcikCore {
@@ -34,8 +34,9 @@ public class RorcikCore {
     }
 
     private void registerCapabilities(final RegisterCapabilitiesEvent event) {
-        PropertyContainerCapability.register();
-        event.register(ru.rorcik.core.property.PropertyContainer.class);
+        
+        event.register(RorPropertyContainer.class);
+        LOGGER.debug("RorPropertyContainer capability registered");
     }
 
     @SubscribeEvent

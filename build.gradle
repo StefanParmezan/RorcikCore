@@ -1,3 +1,4 @@
+
 plugins {
     id 'eclipse'
     id 'idea'
@@ -14,8 +15,6 @@ base {
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-println "Java: ${System.getProperty 'java.version'}, JVM: ${System.getProperty 'java.vm.version'} (${System.getProperty 'java.vendor'}), Arch: ${System.getProperty 'os.arch'}"
-
 minecraft {
     mappings channel: mapping_channel, version: mapping_version
     copyIdeResources = true
@@ -31,29 +30,19 @@ minecraft {
                 }
             }
         }
-
-        client {
-            property 'forge.enabledGameTestNamespaces', 'rorcik_core'
-        }
-
-        server {
-            property 'forge.enabledGameTestNamespaces', 'rorcik_core'
-            args '--nogui'
-        }
-
-        gameTestServer {
-            property 'forge.enabledGameTestNamespaces', 'rorcik_core'
-        }
-
+        client { property 'forge.enabledGameTestNamespaces', 'rorcik_core' }
+        server { property 'forge.enabledGameTestNamespaces', 'rorcik_core'; args '--nogui' }
         data {
             workingDirectory project.file('run-data')
             args '--mod', 'rorcik_core', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
         }
-    }}
+    }
+}
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
+    mavenCentral()
 }
 
 dependencies {
@@ -69,7 +58,6 @@ tasks.named('processResources', ProcessResources).configure {
             mod_authors: mod_authors, mod_description: mod_description,
     ]
     inputs.properties replaceProperties
-
     filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
         expand replaceProperties + [project: project]
     }
@@ -89,10 +77,12 @@ tasks.named('jar', Jar).configure {
     }
     finalizedBy 'reobfJar'
 }
+
 publishing {
     publications {
         register('mavenJava', MavenPublication) {
-            artifact jar
+            from components.java
+            artifactId = 'RorcikCore'
         }
     }
     repositories {

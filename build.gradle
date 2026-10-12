@@ -1,9 +1,8 @@
-
 plugins {
     id 'eclipse'
     id 'idea'
     id 'maven-publish'
-    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
+    id 'net.minecraftforge.gradle' version '6.0.24'
 }
 
 version = mod_version
@@ -83,6 +82,11 @@ publishing {
         register('mavenJava', MavenPublication) {
             from components.java
             artifactId = 'RorcikCore'
+            pom.withXml {
+                asNode().dependencies.dependency.removeAll {
+                    it.groupId.text() == 'net.minecraftforge'
+                }
+            }
         }
     }
     repositories {

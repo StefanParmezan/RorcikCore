@@ -10,13 +10,15 @@ public class ZoneEvents {
         public final int centerX;
         public final int centerZ;
         public final ZoneRules rules;
+        public final int targetHeight; 
 
-        public ZoneReservedEvent(int chunkX, int chunkZ, int centerX, int centerZ, ZoneRules rules) {
+        public ZoneReservedEvent(int chunkX, int chunkZ, int centerX, int centerZ, ZoneRules rules, int targetHeight) {
             this.chunkX = chunkX;
             this.chunkZ = chunkZ;
             this.centerX = centerX;
             this.centerZ = centerZ;
             this.rules = rules;
+            this.targetHeight = targetHeight; 
         }
     }
 }

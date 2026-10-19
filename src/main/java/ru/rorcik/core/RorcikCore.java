@@ -26,7 +26,7 @@ public class RorcikCore {
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
-        LOGGER.info("RorcikCore common setup");
+        LOGGER.info("Info: RorcikCore common setup");
         event.enqueueWork(() -> {
             MinecraftForge.EVENT_BUS.post(new RegisterPropertiesEvent());
             MinecraftForge.EVENT_BUS.post(new RegisterIdentifiableEvent());
@@ -34,18 +34,17 @@ public class RorcikCore {
     }
 
     private void registerCapabilities(final RegisterCapabilitiesEvent event) {
-        
         event.register(RorPropertyContainer.class);
-        LOGGER.debug("RorPropertyContainer capability registered");
+        LOGGER.debug("Info: RorPropertyContainer capability registered");
     }
 
     @SubscribeEvent
     public void onRegisterProperties(RegisterPropertiesEvent event) {
-        LOGGER.info("Properties registration phase started");
+        LOGGER.info("Info: Properties registration phase started");
     }
 
     @SubscribeEvent
     public void onRegisterIdentifiable(RegisterIdentifiableEvent event) {
-        LOGGER.info("Identifiable objects registration phase started");
+        LOGGER.info("Info: Identifiable objects registration phase started");
     }
 }

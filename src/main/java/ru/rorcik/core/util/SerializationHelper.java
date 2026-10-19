@@ -55,10 +55,10 @@ public class SerializationHelper {
 
         int version = tag.contains(KEY_VERSION, Tag.TAG_INT) ? tag.getInt(KEY_VERSION) : 0;
         if (version > NBT_VERSION) {
-            RorcikCore.LOGGER.warn("Loading NBT version {} with older code version {}. Data loss may occur.",
+            RorcikCore.LOGGER.warn("Warn: Loading NBT version {} with older code version {}. Data loss may occur.",
                     version, NBT_VERSION);
         }
-        
+
         if (!tag.contains(KEY_PROPERTIES, Tag.TAG_LIST)) {
             return container;
         }
@@ -72,7 +72,7 @@ public class SerializationHelper {
 
             RorPropertyKey<?> key = RorPropertyRegistry.findKeyByName(id);
             if (key == null) {
-                RorcikCore.LOGGER.debug("Skipping unknown property during load: {}", id);
+                RorcikCore.LOGGER.warn("Warn: Skipping unknown property during load: {}", id);
                 continue;
             }
 
@@ -108,7 +108,7 @@ public class SerializationHelper {
                 yield ResourceLocationHelper.isValid(location) ? ResourceLocationHelper.parse(location) : null;
             }
             default -> {
-                RorcikCore.LOGGER.warn("Unknown property type during deserialization: {}", typeName);
+                RorcikCore.LOGGER.warn("Warn: Unknown property type during deserialization: {}", typeName);
                 yield null;
             }
         };

@@ -20,4 +20,8 @@ public final class CityZoneProviders {
     public static boolean hasProvider() {
         return provider != null;
     }
+
+    public static void clear() {
+        provider = null;
+    }
 }

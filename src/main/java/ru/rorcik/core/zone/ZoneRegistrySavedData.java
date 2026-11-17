@@ -81,4 +81,11 @@ public class ZoneRegistrySavedData extends SavedData {
     public List<ReservedZone> getAllReservedZones() {
         return new ArrayList<>(reservedZones);
     }
+
+    public synchronized boolean isReserved(int x, int z) {
+        for (ReservedZone zone : reservedZones) {
+            if (zone.x() == x && zone.z() == z) return true;
+        }
+        return false;
+    }
 }
